@@ -11,6 +11,8 @@ class Status extends Model
 
     protected $fillable = ['name'];
 
+    public $timestamps = false;
+
     public function histories()
     {
         return $this->belongsToMany(Ticket::class, 'histories', 'status_id', 'ticket_id')->withPivot(['pic_id', 'time_change']);
