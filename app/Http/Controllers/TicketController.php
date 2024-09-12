@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TicketRequest;
 use App\Models\Ticket;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TicketController extends Controller
 {
     public function index()
     {
+        abort_if(! Gate::authorize('lihat tiket'), 403);
+
         $tickets = Ticket::orderBy('created_at', 'desc')->paginate(10);
 
         return view('ticket.index', [
@@ -18,16 +21,14 @@ class TicketController extends Controller
 
     public function create()
     {
+        abort_if(! Gate::authorize('buat tiket'), 403);
+
         return view('ticket.form');
     }
 
-    public function store(Request $request)
+    public function store(TicketRequest $request)
     {
-        // Validasi
-        $validated = $request->validate([
-            'judul' => ['required', 'max:255'],
-            'deskripsi' => ['required'],
-        ]);
+        abort_if(! Gate::authorize('buat tiket'), 403);
 
         // Simpan
         Ticket::create([
@@ -42,18 +43,16 @@ class TicketController extends Controller
 
     public function edit(Ticket $ticket)
     {
+        abort_if(! Gate::authorize('ubah tiket', $ticket), 403);
+
         return view('ticket.form', [
             'ticket' => $ticket,
         ]);
     }
 
-    public function update(Request $request, Ticket $ticket)
+    public function update(TicketRequest $request, Ticket $ticket)
     {
-        // Validasi
-        $validated = $request->validate([
-            'judul' => ['required', 'max:255'],
-            'deskripsi' => ['required'],
-        ]);
+        abort_if(! Gate::authorize('ubah tiket', $ticket), 403);
 
         // Simpan
         $ticket->update([
@@ -67,6 +66,8 @@ class TicketController extends Controller
 
     public function delete(Ticket $ticket)
     {
+        abort_if(! Gate::authorize('hapus tiket', $ticket), 403);
+
         // Delete
         $ticket->delete();
 
@@ -76,6 +77,8 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket)
     {
+        abort_if(! Gate::authorize('lihat tiket'), 403);
+
         return view('ticket.show', [
             'ticket' => $ticket,
         ]);

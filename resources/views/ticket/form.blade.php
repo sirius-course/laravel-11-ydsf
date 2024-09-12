@@ -9,11 +9,13 @@
                 @endif
             </h2>
             @if (isset($ticket))
-                <form action="{{ route('ticket.delete', ['ticket' => $ticket->id]) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus?')">
-                    @method('delete')
-                    @csrf
-                    <button class="font-bold bg-red-700 hover:bg-red-900 p-2 rounded-lg text-xs uppercase text-white">Hapus</button>
-                </form>
+                @can('hapus tiket', $ticket)
+                    <form action="{{ route('ticket.delete', ['ticket' => $ticket->id]) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus?')">
+                        @method('delete')
+                        @csrf
+                        <button class="font-bold bg-red-700 hover:bg-red-900 p-2 rounded-lg text-xs uppercase text-white">Hapus</button>
+                    </form>
+                @endcan
             @endif
         </div>
     </x-slot>

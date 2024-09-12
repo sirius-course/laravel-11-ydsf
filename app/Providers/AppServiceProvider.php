@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Ticket;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('lihat tiket', function (User $user) {
+            return ! empty($user->phone);
+        });
+
+        Gate::define('buat tiket', function (User $user) {
+            return ! empty($user->phone);
+        });
+
+        Gate::define('ubah tiket', function (User $user, Ticket $ticket) {
+            return $user->id == $ticket->user_id;
+        });
+
+        Gate::define('hapus tiket', function (User $user, Ticket $ticket) {
+            return $user->id == $ticket->user_id;
+        });
     }
 }
