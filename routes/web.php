@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/tiket/{ticket}', [TicketController::class, 'update'])->name('ticket.update');
         Route::delete('/tiket/{ticket}', [TicketController::class, 'delete'])->name('ticket.delete');
         Route::get('/tiket/{ticket}', [TicketController::class, 'show'])->name('ticket.show');
+        Route::post('/tiket/{ticket}/ubah-status', [TicketController::class, 'changeStatus'])->name('ticket.change-status');
     });
 });
 

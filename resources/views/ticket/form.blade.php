@@ -24,28 +24,25 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form action="{{ isset($ticket) ? route('ticket.update', ['ticket' => $ticket->id]) : route('ticket.store') }}" method="post">
+                    <form action="{{ isset($ticket) ? route('ticket.update', ['ticket' => $ticket->id]) : route('ticket.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @if (isset($ticket))
                             @method('put')
                         @endif
                         <div class="mb-5">
-                            <label for="input-judul" class="block font-medium leading-6 text-gray-900 dark:text-gray-300">Judul</label>
-                            <div class="mt-2">
-                                <input id="input-judul" name="judul" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 focus:ring-2 focus:ring-indigo-600" value="{{ old('judul') ?? $ticket->title ?? '' }}">
-                                @error('judul')
-                                    <div class="text-red-500 mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
+                            <x-input-label for="input-judul" value="Judul" />
+                            <x-text-input id="input-judul" name="judul" type="text" class="mt-1 block w-full" :value="old('judul', $ticket->title ?? '')" required autofocus autocomplete="judul" />
+                            <x-input-error class="mt-2" :messages="$errors->get('judul')" />
                         </div>
                         <div class="mb-5">
-                            <label for="input-deskripsi" class="block font-medium leading-6 text-gray-900 dark:text-gray-300">Deskripsi</label>
-                            <div class="mt-2">
-                                <textarea id="input-deskripsi" name="deskripsi" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 focus:ring-2 focus:ring-indigo-600" rows="5">{{ old('deskripsi') ?? $ticket->description ?? '' }}</textarea>
-                                @error('deskripsi')
-                                    <div class="text-red-500 mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
+                            <x-input-label for="input-deskripsi" value="Deskripsi" />
+                            <x-textarea id="input-deskripsi" name="deskripsi" class="mt-1 block w-full" required autofocus autocomplete="deskripsi" rows="5">{!! nl2br(old('deskripsi', $ticket->description ?? '')) !!}</x-textarea>
+                            <x-input-error class="mt-2" :messages="$errors->get('deskripsi')" />
+                        </div>
+                        <div class="mb-5">
+                            <x-input-label for="input-gambar" value="Gambar" />
+                            <x-text-input id="input-gambar" name="gambar" type="file" class="mt-1 block w-full" accept="image/*"/>
+                            <x-input-error class="mt-2" :messages="$errors->get('gambar')" />
                         </div>
                         <div class="text-end">
                             <button class="font-bold bg-green-700 hover:bg-green-900 py-2 px-3 rounded-lg uppercase text-white">Simpan</button>

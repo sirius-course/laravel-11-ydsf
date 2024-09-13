@@ -24,15 +24,7 @@ class TicketRequest extends FormRequest
         return [
             'judul' => ['required', 'max:255'],
             'deskripsi' => ['required'],
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'judul.required' => 'Judul wajib diisi!',
-            'judul.max' => 'Judul tidak boleh berisi lebih dari 255 karakter!',
-            'deskripsi.required' => 'Deskripsi wajib diisi!',
+            'gambar' => ['nullable', 'image'],
         ];
     }
 }
