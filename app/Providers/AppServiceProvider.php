@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Comment;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -36,6 +37,14 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('hapus tiket', function (User $user, Ticket $ticket) {
             return $user->id == $ticket->user_id;
+        });
+
+        Gate::define('buat komentar', function (User $user) {
+            return Gate::authorize('lihat tiket');
+        });
+
+        Gate::define('hapus komentar', function (User $user, Comment $comment) {
+            return $user->id == $comment->user_id;
         });
     }
 }

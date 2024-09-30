@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Middleware\UserHasPhoneMiddleware;
@@ -27,6 +28,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('/tiket/{ticket}', [TicketController::class, 'delete'])->name('ticket.delete');
         Route::get('/tiket/{ticket}', [TicketController::class, 'show'])->name('ticket.show');
         Route::post('/tiket/{ticket}/ubah-status', [TicketController::class, 'changeStatus'])->name('ticket.change-status');
+
+        Route::post('/tiket/{ticket}/komentar', [CommentController::class, 'store'])->name('comment.store');
+        Route::delete('/komentar/{comment}', [CommentController::class, 'delete'])->name('comment.delete');
     });
 });
 

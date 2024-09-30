@@ -101,7 +101,7 @@ class TicketController extends Controller
         $ticket->histories()->detach($statuses); // hapus semua status tiket
 
         // Hapus gambar
-        if (!empty($ticket->image)) {
+        if (! empty($ticket->image)) {
             Storage::disk('public')->delete($ticket->image); // hapus file sebelumnya bila ada
         }
 
@@ -140,19 +140,19 @@ class TicketController extends Controller
 
     private function saveImage($ticket, $image)
     {
-        $path = storage_path("tickets");
-        if (!file_exists($path)) {
+        $path = storage_path('app/public/tickets');
+        if (! file_exists($path)) {
             mkdir($path, 0777, true); // buat folder tickets jika tidak ada
         }
 
-        if (!empty($ticket->image)) {
+        if (! empty($ticket->image)) {
             Storage::disk('public')->delete($ticket->image); // hapus file sebelumnya bila ada
         }
 
-        $file = Storage::disk('public')->put("tickets", $image); // simpan file
+        $file = Storage::disk('public')->put('tickets', $image); // simpan file
 
         $ticket->update([
-            'image' => $file // simpan lokasi fil
+            'image' => $file, // simpan lokasi fil
         ]);
     }
 }
